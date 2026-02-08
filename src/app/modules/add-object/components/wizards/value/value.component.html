@@ -1,0 +1,27 @@
+<form [formGroup]="formSteps" (keydown.enter)="false" class="flex flex-col items-center justify-center h-full">
+
+
+  <!-- Value slider -->
+  <div *ngIf="currentStepIndex === 0" class="flex flex-col items-center justify-center h-full w-full">
+    <h1 class="font-bold">Now do you need to decide what personal value you can give this object?</h1>
+    <h1 class="font-bold">This aspect will indicate the place of the thing in your collection.</h1>
+    <div class="flex flex-col w-full mt-16">
+      <mat-slider class="wizard-slider" [min]="0" [max]="100" [step]="1">
+        <input matInput matSliderThumb formControlName="valueCtrl" required>
+      </mat-slider>
+    </div>
+    <div class="slider-text flex items-center justify-between mt-3">
+      <span class="text-left">completely unimportant thing</span>
+      <span class="text-right">the most important for my personality</span>
+    </div>
+  </div>
+
+
+  <div class="mt-auto flex w-full">
+    <button class="mr-auto" (click)="previous()">Back</button>
+    <button tabindex="0" type="button" class="ml-auto next-button" (click)="next()"
+            [disabled]="formSteps.get(steps[currentStepIndex])?.invalid">
+      Next
+    </button>
+  </div>
+</form>

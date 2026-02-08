@@ -1,0 +1,89 @@
+<ng-container>
+  <form [formGroup]="formSteps"
+        (keydown.enter)="false"
+        class="flex flex-col items-center justify-center h-full">
+
+    <!-- Image Upload -->
+    <div *ngIf="currentStepIndex === 0"
+         class="flex flex-col items-center justify-center h-full w-full">
+      <h1 class="font-bold">Upload a photo of your object</h1>
+      <div *ngIf="imagePaths.length" class="image-uploaded flex flex-col mt-16">
+        <div class="flex space-x-2">
+          <div *ngFor="let path of imagePaths" class="image-container relative">
+            <img [src]="path" class="uploaded-image" alt="Uploaded image">
+            <button class="delete-btn" (click)="deleteImage(path)">X</button>
+          </div>
+        </div>
+        <span class="mt-4 text-center">Uploaded 100%</span>
+      </div>
+      <mat-spinner class="mt-16" *ngIf="isLoading"></mat-spinner>
+      <div class="image-upload cursor-pointer mt-16" (click)="imageInput.click()"
+           *ngIf="!imagePaths.length && !isLoading">
+        <mat-icon class="h-8 w-8">add</mat-icon>
+        <input type="file" accept="image/*" (change)="onImageSelected($event)" #imageInput hidden>
+      </div>
+    </div>
+
+    <!-- Name -->
+    <div *ngIf="currentStepIndex === 1" class="flex flex-col items-center justify-center h-full w-full">
+      <h1 class="font-bold">What is the object's name?</h1>
+      <mat-form-field class="w-3/4  max-w-md mt-16">
+        <input matInput formControlName="nameCtrl">
+      </mat-form-field>
+    </div>
+
+    <!-- Material -->
+    <div *ngIf="currentStepIndex === 2" class="flex flex-col items-center justify-center h-full w-full">
+      <h1 class="font-bold">What materials is it made of?</h1>
+      <mat-form-field class="w-3/4 max-w-md mt-16">
+        <mat-chip-grid #chipGrid aria-label="Material selection" formControlName="materialCtrl">
+          <mat-chip-row *ngFor="let material of formSteps.get('materialCtrl')?.value" (removed)="remove(material)">
+            {{material}}
+            <button matChipRemove [attr.aria-label]="'remove ' + material">
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-chip-row>
+          <input placeholder="Add Material..." #materialInput [formControl]="materialCtrl"
+                 (keydown.enter)="$event.stopPropagation()"
+                 [matChipInputFor]="chipGrid" [matAutocomplete]="auto"
+                 [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                 (matChipInputTokenEnd)="add($event)"/>
+        </mat-chip-grid>
+        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+          <mat-option *ngFor="let material of filteredMaterials | async" [value]="material">
+            {{material}}
+          </mat-option>
+        </mat-autocomplete>
+      </mat-form-field>
+    </div>
+
+    <!-- Location -->
+    <div [ngStyle]="{'display': currentStepIndex === 3 ? 'flex' : 'none'}"
+         class="flex flex-col items-center justify-center h-full w-full">
+      <h1 class="font-bold">Where was it created? (country, city)</h1>
+      <mat-form-field class="w-3/4  max-w-md mt-16">
+        <input id="autocomplete" matInput #locationInput placeholder="Enter a location"
+               (input)="onLocationInput()"
+               type="text"/>
+      </mat-form-field>
+    </div>
+
+    <!-- Year -->
+    <div *ngIf="currentStepIndex === 4" class="flex flex-col items-center justify-center h-full w-full">
+      <h1 class="font-bold">When was acquired? (year)</h1>
+      <mat-form-field class="w-3/4  max-w-md mt-16">
+        <input formControlName="yearCtrl" matInput pattern="\d{4}">
+        <mat-error *ngIf="formSteps.get('yearCtrl')?.hasError('pattern')">Please enter a valid year.</mat-error>
+      </mat-form-field>
+    </div>
+
+    <div class="mt-auto flex w-full">
+      <button tabindex="1" *ngIf="currentStepIndex !== 0" class="mr-auto" (click)="previous()">Back</button>
+      <button type="button"
+              class="ml-auto next-button"
+              (click)="next()"
+              [disabled]="formSteps.get(steps[currentStepIndex])?.invalid || isLoading">Next
+      </button>
+    </div>
+  </form>
+</ng-container>

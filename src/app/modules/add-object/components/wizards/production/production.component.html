@@ -1,0 +1,38 @@
+<form [formGroup]="formSteps" (keydown.enter)="false" class="flex flex-col items-center justify-center h-full">
+  <!-- Production type -->
+  <div *ngIf="currentStepIndex === 0" class="flex flex-col items-center justify-center h-full w-full">
+    <h1 class="font-bold">Was this object created by a factory, or is it handmade?</h1>
+    <app-wonder-select class="mt-16"
+                       formControlName="productionTypeCtrl"
+                       [items]="productionTypes"
+                       [multiple]="false">
+    </app-wonder-select>
+  </div>
+
+  <!-- Creator -->
+  <div *ngIf="currentStepIndex === 1" class="flex flex-col items-center justify-center h-full w-full">
+    <h1 class="font-bold">What is the name of the company / brand / creator?</h1>
+    <mat-form-field class="w-3/4  max-w-md mt-16">
+      <input matInput formControlName="creatorCtrl">
+    </mat-form-field>
+  </div>
+
+  <!-- Edition type -->
+  <div *ngIf="currentStepIndex === 2" class="flex flex-col items-center justify-center h-full w-full">
+    <h1 class="font-bold">Is it limited edition? Is it unique, or is it available in the mass market?</h1>
+    <app-wonder-select class="mt-16"
+                       formControlName="editionCtrl"
+                       [items]="editionTypes"
+                       [multiple]="false">
+    </app-wonder-select>
+  </div>
+
+  <!--  Buttons -->
+  <div class="mt-auto flex w-full">
+    <button class="mr-auto" (click)="previous()">Back</button>
+    <button type="button" class="ml-auto next-button" (click)="next()" [disabled]="formSteps.get(steps[currentStepIndex])?.invalid">
+      Next
+    </button>
+  </div>
+
+</form>

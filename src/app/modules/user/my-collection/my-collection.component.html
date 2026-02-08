@@ -1,0 +1,12 @@
+<ng-container *ngIf="user">
+  <div class="my-collection-wrapper flex flex-col py-10 mx-auto">
+    <div class="content-wrapper max-w-full md:max-w-md lg:max-w-lg xl:max-w-xl mx-auto px-16 sm:px-8 lg:px-0">
+      <app-user-collection *ngIf="user" [user]="user" [wonderObjects]="user.objects"
+                           [limitItems]="user.objects.length"></app-user-collection>
+      <span *ngIf="!user">Loading..</span>
+    </div>
+  </div>
+  <app-layout (scrollPastFilter)="showScrollbar = $event" [userId]="user._id" #appLayout></app-layout>
+  <app-custom-scrollbar *ngIf="showScrollbar" (scrollChange)="appLayout.setScrollPosition($event)"
+                        [scrollAreaWidth]="appLayout.scrollAreaWidth"></app-custom-scrollbar>
+</ng-container>

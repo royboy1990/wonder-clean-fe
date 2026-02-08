@@ -1,0 +1,13 @@
+<!-- video-done.component.html -->
+<div  class="done-container">
+  <video autoplay muted loop>
+    <source type="video/mp4" src="assets/videos/done.mp4">
+  </video>
+  <div class="done-content">
+    <div class="image-wrapper bg-white border border-[#D9D9D9]">
+      <img [src]="object?.basic?.imageUploadCtrl || ''">
+      <div class="text-lg mt-8">Your wonder has been added</div>
+      <button class="mt-2" (click)="router.navigate(['/user/my-collection'])">Go to collection</button>
+    </div>
+  </div>
+</div>

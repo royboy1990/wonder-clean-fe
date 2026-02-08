@@ -1,0 +1,18 @@
+.item {
+  height: 50px;
+  width: 163px;
+  color: #888787;
+  border: 1px solid #888787;
+  border-radius: 50px;
+
+  &.selected {
+    background-color: #D9D9D9;
+    color: #000000;
+    border: none;
+  }
+
+}
+
+mat-form-field {
+  width: 520px;
+}

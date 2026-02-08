@@ -1,0 +1,6 @@
+<div class="flex w-full justify-between">
+  <span class="cursor-pointer text-left" [class.font-bold]="selectedFilter.text === filter.text"
+        *ngFor="let filter of filters" (click)="onFilterClick(filter)">
+    {{ filter.text }}
+  </span>
+</div>

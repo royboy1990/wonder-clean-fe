@@ -1,0 +1,66 @@
+mat-stepper {
+
+  .mat-stepper-horizontal-line {
+    border: solid #D9D9D9;
+    border-width: 0 3px 3px 0;
+    display: inline-block;
+    padding: 3px;
+    transform: rotate(-45deg);
+    min-width: auto;
+    flex: none;
+  }
+  .mat-horizontal-stepper-wrapper {
+    height: 100%;
+
+    .mat-horizontal-stepper-header-container {
+      display: flex;
+      align-items: center;
+      width: 100%;
+      justify-content: space-between;
+    }
+
+    .mat-horizontal-content-container {
+      height: 100%;
+      padding: 0;
+
+      .mat-horizontal-stepper-content {
+        height: 100%;
+
+        &.mat-horizontal-stepper-content-inactive {
+          height: 0;
+
+        }
+      }
+    }
+  }
+
+  mat-step-header {
+
+    &:last-child::after {
+      // Do not add arrow on the last header
+      display: none;
+    }
+
+    &.mat-step-header {
+      padding: 0;
+
+      .mat-step-icon-state-number {
+        // hide numbers from stepper
+        display: none;
+      }
+
+      .mat-step-label {
+        // label colors
+        min-width: auto;
+
+        &.mat-step-label-active {
+          color: #888787;
+
+          &.mat-step-label-selected {
+            color: green;
+          }
+        }
+      }
+    }
+  }
+}

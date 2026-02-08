@@ -1,0 +1,10 @@
+<div class="flex flex-col items-center px-5 py-4 h-full w-full">
+  <span [mat-dialog-close]="false" class="cursor-pointer ml-auto">X</span>
+  <h1 class="mt-auto">{{data.questionText}}</h1>
+  <div class="mt-auto mb-8 w-full flex justify-between">
+    <button [mat-dialog-close]="false">{{data.leftButtonText | titlecase}}</button>
+    <button [mat-dialog-close]="true">{{data.rightButtonText | titlecase}}</button>
+  </div>
+</div>
+
+

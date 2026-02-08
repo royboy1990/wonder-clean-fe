@@ -1,0 +1,70 @@
+<div *ngIf="!loading && showHeader" class="header flex items-center h-20 w-full">
+  <div class="left mr-auto flex flex-col">
+    <span class="text-lg font-bold cursor-pointer" (click)="routerNavigate('home')">
+      Wonder
+    </span>
+    <ng-container *ngIf="showInventoryInfo">
+      <span>A Personal Inventory Exploration</span>
+      <span>and Provenance System</span>
+    </ng-container>
+  </div>
+  <div *ngIf="!addObjectRoute" class="right ml-auto flex items-center space-x-12">
+    <ng-container *ngIf="!isMyObject">
+      <ng-container *ngIf="!user">
+        <button (click)="routerNavigate('add-object')">Add Object</button>
+        <a>About</a>
+        <a (click)="routerNavigate('auth/login')">Login</a>
+        <a (click)="routerNavigate('auth/register')">Register</a>
+      </ng-container>
+      <ng-container *ngIf="user">
+        <ng-container *ngIf="onObjectPage">
+          <button (click)="addToPeeks()">Add to Peeks</button>
+        </ng-container>
+        <ng-container *ngIf="!onObjectPage">
+          <button (click)="routerNavigate('add-object')">Add Object</button>
+          <a>About</a>
+          <span class="cursor-pointer" [matMenuTriggerFor]="menu">
+          Me
+        </span>
+        </ng-container>
+        <mat-menu #menu="matMenu">
+          <button (click)="routerNavigate('user/collection/' + user._id)" mat-menu-item>
+            <span>My collection</span>
+          </button>
+          <button (click)="routerNavigate('user/peeks/' + user._id)" mat-menu-item>
+            <span>My Peeks</span>
+          </button>
+          <button mat-menu-item>
+            <span>Change Password</span>
+          </button>
+          <button (click)="authService.logout()" mat-menu-item>
+            <span>Log Out</span>
+          </button>
+        </mat-menu>
+      </ng-container>
+    </ng-container>
+    <ng-container *ngIf="isMyObject">
+      <button>Add Label</button>
+      <a>Transfer</a>
+      <a (click)="showHideObject()">{{objectPublicStatus}}</a>
+      <a (click)="deleteObject()">Delete</a>
+      <span class="cursor-pointer" [matMenuTriggerFor]="menu">
+          Me
+        </span>
+      <mat-menu #menu="matMenu">
+        <button (click)="routerNavigate('user/my-collection')" mat-menu-item>
+          <span>My collection</span>
+        </button>
+        <button mat-menu-item>
+          <span>My Peeks</span>
+        </button>
+        <button mat-menu-item>
+          <span>Change Password</span>
+        </button>
+        <button (click)="authService.logout()" mat-menu-item>
+          <span>Log Out</span>
+        </button>
+      </mat-menu>
+    </ng-container>
+  </div>
+</div>

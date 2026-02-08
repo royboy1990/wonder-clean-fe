@@ -1,0 +1,70 @@
+<form [formGroup]="formSteps" (keydown.enter)="false"
+      class="flex flex-col items-center justify-center h-full">
+
+  <!-- Production type -->
+  <div *ngIf="currentStepIndex === 0" class="flex flex-col items-center justify-center h-full w-full">
+    <h1 class="font-bold"> How did you get this object?</h1>
+    <app-wonder-select class="mt-16"
+                       formControlName="acquisitionMethodCtrl"
+                       [items]="acquisitionTypes"
+                       [multiple]="false">
+    </app-wonder-select>
+  </div>
+
+  <!-- Dream object -->
+  <div *ngIf="currentStepIndex === 1" class="flex flex-col items-center justify-center h-full w-full">
+    <h1 class="font-bold">Was this object your goal or dream?</h1>
+    <app-wonder-select class="mt-16"
+                       formControlName="dreamObjectCtrl"
+                       [items]="yesNoTypes"
+                       [multiple]="false">
+    </app-wonder-select>
+  </div>
+
+  <!-- Dream object -->
+  <div *ngIf="currentStepIndex === 2" class="flex flex-col items-center justify-center h-full w-full">
+    <h1 class="font-bold">Choose a hand status:</h1>
+    <app-wonder-select class="mt-16"
+                       formControlName="handStatusCtrl"
+                       [items]="handStatusTypes"
+                       [multiple]="false">
+    </app-wonder-select>
+  </div>
+  <!-- Past Owners -->
+  <div *ngIf="currentStepIndex === 3" class="flex flex-col items-center justify-center h-full w-full">
+    <h1 class="font-bold">What do you know about the past owners of the object?
+      Name, location, dates. (Only if it's relevant; if not, write "-")</h1>
+    <mat-form-field class="w-3/4  max-w-md mt-16">
+      <input matInput formControlName="pastOwnersCtrl">
+    </mat-form-field>
+  </div>
+  <!-- Image Upload -->
+  <div *ngIf="currentStepIndex === 4" class="flex flex-col items-center justify-center h-full w-full">
+    <h1 class="font-bold text-center">Has the object been damaged? <br> Tell about it. </h1>
+    <mat-form-field class="w-3/4  max-w-md mt-16">
+      <input matInput formControlName="damageCtrl">
+    </mat-form-field>
+    <mat-spinner class="mt-16" *ngIf="isUploading"></mat-spinner>
+    <div class="image-upload cursor-pointer mt-8" (click)="imageInput.click()"
+         *ngIf="imagePaths.length < 4 && !isUploading">
+      <mat-icon class="h-8 w-8">add</mat-icon>
+      <input type="file" accept="image/*" (change)="onImageSelected($event)" #imageInput multiple hidden>
+    </div>
+    <span class="color-[#888787] font-medium mt-3">Upload photos of the damages (max 4)</span>
+    <div *ngIf="imagePaths.length" class="image-uploaded flex flex-col">
+      <div class="flex space-x-2 mt-3">
+        <img *ngFor="let path of imagePaths" [src]="path" class="uploaded-image" alt="Uploaded image">
+      </div>
+    </div>
+  </div>
+
+  <!--  Buttons -->
+  <div class="mt-auto flex w-full">
+    <button class="mr-auto" (click)="previous()">Back</button>
+    <button type="button" class="ml-auto next-button" (click)="next()"
+            [disabled]="formSteps.get(steps[currentStepIndex])?.invalid">
+      Next
+    </button>
+  </div>
+
+</form>

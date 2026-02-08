@@ -1,0 +1,19 @@
+button {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 50px;
+  width: 164px;
+  @apply border rounded-3xl border-[#D9D9D9];
+
+  &:hover {
+    cursor: pointer;
+    background: rgba(217, 217, 217, 0.50);
+  }
+
+  &:disabled {
+    color: rgba(0, 0, 0, 0.45);
+    background: rgba(217, 217, 217, 0.1);
+  }
+}

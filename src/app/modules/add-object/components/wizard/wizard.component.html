@@ -1,0 +1,54 @@
+<div class="flex flex-col h-full">
+  <mat-stepper class="h-full" [linear]="true">
+
+    <mat-step [stepControl]="mainFormGroup.controls['basic']" class="h-full">
+      <ng-template matStepLabel>Basic</ng-template>
+      <app-basic (nextStep)="onNextStep($event, 'basic')"></app-basic>
+    </mat-step>
+
+    <mat-step [stepControl]="mainFormGroup.controls['value']" class="h-full">
+      <ng-template matStepLabel>Value</ng-template>
+      <app-value (nextStep)="onNextStep($event, 'value')" (prevStep)="onPrevStep()"></app-value>
+    </mat-step>
+
+    <mat-step [stepControl]="mainFormGroup.controls['production']" class="h-full">
+      <ng-template matStepLabel>Production</ng-template>
+      <app-production (nextStep)="onNextStep($event, 'production')" (prevStep)="onPrevStep()"></app-production>
+    </mat-step>
+
+    <mat-step [stepControl]="mainFormGroup.controls['history']" class="h-full">
+      <ng-template matStepLabel>History</ng-template>
+      <app-history (nextStep)="onNextStep($event, 'history')" (prevStep)="onPrevStep()"></app-history>
+    </mat-step>
+
+    <mat-step [stepControl]="mainFormGroup.controls['emotions']" class="h-full">
+      <ng-template matStepLabel>Emotions</ng-template>
+      <app-emotions (nextStep)="onNextStep($event, 'emotions')" (prevStep)="onPrevStep()"></app-emotions>
+    </mat-step>
+
+    <mat-step [stepControl]="mainFormGroup.controls['monetary']" class="h-full">
+      <ng-template matStepLabel>Monetary</ng-template>
+      <app-monetary (nextStep)="onNextStep($event, 'monetary')" (prevStep)="onPrevStep()"></app-monetary>
+    </mat-step>
+
+    <mat-step [stepControl]="mainFormGroup.controls['description']" class="h-full">
+      <ng-template matStepLabel>Description</ng-template>
+      <app-description (nextStep)="onNextStep($event, 'description')" (prevStep)="onPrevStep()"></app-description>
+    </mat-step>
+
+    <mat-step [stepControl]="mainFormGroup.controls['publicStatus']" class="h-full">
+      <ng-template matStepLabel>Public Status</ng-template>
+      <app-public-status (nextStep)="onNextStep($event, 'publicStatus')" (prevStep)="onPrevStep()"></app-public-status>
+    </mat-step>
+
+    <mat-step [stepControl]="mainFormGroup.controls['valueCheck']" class="h-full">
+      <ng-template matStepLabel>Value Checking</ng-template>
+      <app-value-check (nextStep)="onNextStep($event, 'valueCheck')" (prevStep)="onPrevStep()"></app-value-check>
+    </mat-step>
+
+    <mat-step>
+      <ng-template matStepLabel>Done</ng-template>
+    </mat-step>
+
+  </mat-stepper>
+</div>

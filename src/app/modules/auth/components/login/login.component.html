@@ -1,0 +1,32 @@
+<div class="flex flex-col items-center justify-center h-screen w-full p-24">
+  <div class="absolute top-0 left-0 m-4">
+    <span class="text-4xl">Wonder</span>
+  </div>
+
+  <div class="flex flex-col w-full items-center">
+    <span class="mb-4">Login</span>
+    <form [formGroup]="loginForm" (ngSubmit)="login()" class="flex flex-col w-1/2 items-stretch space-y-2">
+
+      <mat-form-field>
+        <mat-label>Email</mat-label>
+        <input name="email" type="text" matInput formControlName="email">
+        <mat-error *ngIf="loginForm.get('email')?.errors?.['email']">
+          Please provide a valid email.
+        </mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Password</mat-label>
+        <input name="password" matInput formControlName="password" type="password">
+        <mat-error *ngIf="loginForm.get('password')?.errors?.['minlength']">
+          Password must be at least 8 characters long.
+        </mat-error>
+      </mat-form-field>
+
+
+      <button type="submit" [disabled]="loginForm.invalid" class="mt-4 mx-auto">
+        <span>Next</span>
+      </button>
+    </form>
+  </div>
+</div>

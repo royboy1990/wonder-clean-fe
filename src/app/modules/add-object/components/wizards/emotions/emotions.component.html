@@ -1,0 +1,67 @@
+<form [formGroup]="formSteps" (keydown.enter)="false" class="flex flex-col items-center justify-center h-full">
+  <!-- Emotions type -->
+  <div *ngIf="currentStepIndex === 0" class="flex flex-col items-center justify-center h-full w-full">
+    <h1 class="font-bold">What emotions do you feel when you see or use it??</h1>
+    <app-wonder-select class="mt-16"
+                       formControlName="emotionsCtrl"
+                       [items]="emotionTypes"
+                       [multiple]="true">
+    </app-wonder-select>
+  </div>
+
+  <!-- Lost -->
+  <div *ngIf="currentStepIndex === 1" class="flex flex-col items-center justify-center h-full w-full">
+    <h1 class="font-bold">What would happen if you lose it? Would you see that as a loss or a relief?</h1>
+    <mat-form-field class="w-3/4  max-w-md mt-16">
+      <input matInput formControlName="lostItemCtrl">
+    </mat-form-field>
+  </div>
+
+  <!-- Relic object -->
+  <div *ngIf="currentStepIndex === 2" class="flex flex-col items-center justify-center h-full w-full">
+    <h1 class="font-bold">Can this object be your personal or family relic?</h1>
+    <app-wonder-select class="mt-16"
+                       formControlName="isRelicCtrl"
+                       [items]="yesNoTypes"
+                       [multiple]="false">
+    </app-wonder-select>
+  </div>
+
+  <!-- Replaceable object -->
+  <div *ngIf="currentStepIndex === 3" class="flex flex-col items-center justify-center h-full w-full">
+    <h1 class="font-bold">Is it replaceable?</h1>
+    <app-wonder-select class="mt-16"
+                       formControlName="isReplaceableCtrl"
+                       [items]="yesNoTypes"
+                       [multiple]="false">
+    </app-wonder-select>
+  </div>
+  <!-- Intended use -->
+  <div *ngIf="currentStepIndex === 4" class="flex flex-col items-center justify-center h-full w-full">
+    <h1 class="font-bold">Do you use it as intended, or has its functionality changed?</h1>
+    <app-wonder-select class="mt-16"
+                       formControlName="isIntendedUseCtrl"
+                       [items]="yesNoTypes"
+                       [multiple]="false">
+    </app-wonder-select>
+  </div>
+
+  <!-- Intended use -->
+  <div *ngIf="currentStepIndex === 5" class="flex flex-col items-center justify-center h-full w-full">
+    <h1 class="font-bold">Do you use this object every day?</h1>
+    <app-wonder-select class="mt-16"
+                       formControlName="usageCtrl"
+                       [items]="usageTypes"
+                       [multiple]="false">
+    </app-wonder-select>
+  </div>
+
+  <!--  Buttons -->
+  <div class="mt-auto flex w-full">
+    <button class="mr-auto" (click)="previous()">Back</button>
+    <button type="button" class="ml-auto next-button" (click)="next()" [disabled]="formSteps.get(steps[currentStepIndex])?.invalid">
+      Next
+    </button>
+  </div>
+
+</form>

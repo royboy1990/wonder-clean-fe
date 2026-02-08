@@ -1,0 +1,8 @@
+<div class="flex items-center px-12 h-full w-full"
+     (mouseenter)="isHovered = true"
+     (mouseleave)="isHovered = false">
+  <div class="font-bold" *ngIf="isHovered">
+    <span class="text-truncate">{{data}}</span>
+  </div>
+  <span *ngIf="!isHovered">{{title}}</span>
+</div>

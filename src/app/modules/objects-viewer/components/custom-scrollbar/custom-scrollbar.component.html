@@ -1,0 +1,11 @@
+<div #scrollbar class="scroll-track"
+     (mousedown)="grabScrollbar($event)"
+     (mouseup)="stopDragging()"
+     (mouseleave)="stopDragging()">
+  <div class="scroll-line">
+    <div class="scroll-thumb" #scrollThumb
+         [style.left.%]="scrollLeft">
+    </div>
+  </div>
+
+</div>

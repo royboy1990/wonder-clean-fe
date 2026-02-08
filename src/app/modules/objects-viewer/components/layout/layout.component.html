@@ -1,0 +1,93 @@
+<div class="layout-wrapper relative">
+
+  <div class="flex flex-col items-center">
+    <app-filter #appFilter class="sticky" (selectedFilterChange)="onFilterChange($event)"
+                [selectedFilter]="selectedFilter"></app-filter>
+
+    <ng-container *ngIf="selectedFilter.text === 'All'">
+      <div
+        class="main-grid grid grid-cols-4 xs:grid-cols-3 gap-x-32 gap-y-32 xs:gap-x-8 xs:gap-y-8 pt-28">
+        <div class="cursor-pointer" *ngFor="let object of objects" (click)="router.navigate(['object/' + object._id])">
+          <img
+            [src]="object.basic.imageUploadCtrl ? object.basic.imageUploadCtrl : 'assets/images/file-upload-placeholder.png'"
+            class="object-cover w-200 h-200" alt="object image"
+            [class.blur-md]="object.publicStatus.publicStatusCtrl[0].text.toLocaleLowerCase() === 'hide'">
+        </div>
+      </div>
+    </ng-container>
+
+    <ng-container *ngIf="selectedFilter.text !== 'All'">
+      <div class="sidebar" [class.justify-center]="groupedObjects.length < 14">
+
+        <div class="previous-groups mb-auto">
+          <div class="object-bg relative"
+               *ngFor="let group of groupedObjects | slice:0 : currentGroupIndex; let i = index"
+               (click)="selectGroup(group.groupName)"
+               [style.transform]="getTransformStyle(i,hoveredGroupName === group.groupName)"
+               [matTooltip]="group.groupName.toString() | titlecase"
+               (mouseenter)="onMouseEnter(group.groupName)"
+               (mouseleave)="onMouseLeave(group.groupName)"
+          >
+            <img *ngIf="isGroupImage(group)"
+                 [src]="getBackground(group)" alt="group image">
+            <h1 *ngIf="!isGroupImage(group)"
+                [class.text-sm]="group.groupName.length < 10"
+                [class.text-xs]="group.groupName.length >= 10 && group.groupName.length < 24"
+                [class.text-[7px]]="group.groupName.length >= 24"
+                class="group-name absolute">{{group.groupName.toString() | titlecase}}</h1>
+          </div>
+
+
+        </div>
+
+        <div class="current-item mb-auto">
+          <div class="object-bg relative"
+               *ngFor="let group of groupedObjects | slice:currentGroupIndex : currentGroupIndex + 1; let i = index"
+               (click)="selectGroup(group.groupName)"
+               [style.transform]="getTransformStyle(i)"
+               [matTooltip]="(group.groupName?.toString()) || '' | titlecase">
+            <img *ngIf="isGroupImage(group)"
+                 [src]="getBackground(group)" alt="group image">
+            <h1 *ngIf="!isGroupImage(group)"
+                [class.text-sm]="group.groupName.length < 10"
+                [class.text-xs]="group.groupName.length >= 10 && group.groupName.length < 24"
+                [class.text-[7px]]="group.groupName.length >= 24"
+                class="group-name absolute">{{group.groupName?.toString() | titlecase}}</h1>
+          </div>
+        </div>
+
+        <div class="next-groups mt-auto">
+          <div class="object-bg relative"
+               *ngFor="let group of groupedObjects | slice:currentGroupIndex + 1 : groupedObjects.length; let i = index"
+               (click)="selectGroup(group.groupName)"
+               [style.transform]="getTransformStyle(i, hoveredGroupName === group.groupName)"
+               [matTooltip]="group.groupName.toString() | titlecase"
+               (mouseenter)="onMouseEnter(group.groupName)"
+               (mouseleave)="onMouseLeave(group.groupName)">
+            <img *ngIf="isGroupImage(group)" [src]="getBackground(group)" alt="group image">
+            <h1 *ngIf="!isGroupImage(group)"
+                [class.text-sm]="group.groupName.length < 10"
+                [class.text-xs]="group.groupName.length >= 10 && group.groupName.length < 24"
+                [class.text-[7px]]="group.groupName.length >= 24"
+                class="group-name absolute">{{group.groupName.toString() | titlecase}}</h1>
+          </div>
+        </div>
+      </div>
+      <div class="group-wrapper flex flex-col w-full " #scrollableElement>
+        <div class="group w-full flex flex-col relative">
+          <div class="grid-wrapper">
+            <div class="wonder-grid" #gridElement>
+              <div class="grid-item cursor-pointer" *ngFor="let object of objectsForCurrentGroup"
+                   (click)="router.navigate(['object/' + object._id])">
+                <img
+                  [src]="object.basic.imageUploadCtrl ? object.basic.imageUploadCtrl : 'assets/images/file-upload-placeholder.png'"
+                  class="object-cover object-image" alt="object image"
+                  [class.blur-md]="object.publicStatus.publicStatusCtrl[0].text.toLocaleLowerCase() === 'hide'">
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+</div>

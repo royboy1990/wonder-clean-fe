@@ -1,0 +1,29 @@
+<form [formGroup]="formSteps" (keydown.enter)="false" class="flex flex-col items-center justify-center h-full">
+
+  <!-- Object's price -->
+  <div *ngIf="currentStepIndex === 0" class="flex flex-col items-center justify-center h-full w-full">
+    <h1 class="font-bold">What is the price of this object? (in monetary terms). What do you think?</h1>
+    <mat-form-field class="w-3/4  max-w-md mt-16">
+      <input matInput formControlName="priceCtrl">
+    </mat-form-field>
+  </div>
+
+  <!-- isSellable object -->
+  <div *ngIf="currentStepIndex === 1" class="flex flex-col items-center justify-center h-full w-full">
+    <h1 class="font-bold">Would you sell it?</h1>
+    <app-wonder-select class="mt-16"
+                       formControlName="isSellableCtrl"
+                       [items]="yesNoTypes"
+                       [multiple]="false">
+    </app-wonder-select>
+  </div>
+
+  <!--  Buttons -->
+  <div class="mt-auto flex w-full">
+    <button class="mr-auto" (click)="previous()">Back</button>
+    <button type="button" class="ml-auto next-button" (click)="next()" [disabled]="formSteps.get(steps[currentStepIndex])?.invalid">
+      Next
+    </button>
+  </div>
+
+</form>

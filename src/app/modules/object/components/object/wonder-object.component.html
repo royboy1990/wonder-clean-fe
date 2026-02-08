@@ -1,0 +1,192 @@
+<div *ngIf="object" class="wonder-object-wrapper flex flex-col py-10">
+  <div class="object border border-[#D9D9D9] flex flex-col h-full mt-10">
+    <!-- TOP Image hand status, acquisition etc..-->
+    <div class="grid object-top">
+      <!-- Left Side, two rows -->
+      <div class="left-side">
+        <div class="border-b border-b-[#D9D9D9] p-8 flex flex-col items-center justify-center">
+          <div class="images flex flex-row-reverse items-center justify-center h-full w-full relative">
+            <div>
+              <img *ngFor="let emotion of object.emotions.emotionsCtrl| slice:3:6; let i = index"
+                   [matTooltip]="emotion.text"
+                   [src]="'assets/images/icons/emotions/sm/' + emotion.text?.toLowerCase() + '.png'">
+            </div>
+            <div>
+              <img *ngFor="let emotion of object.emotions.emotionsCtrl | slice:0:3; let i = index"
+                   [matTooltip]="emotion.text"
+                   [src]="'assets/images/icons/emotions/sm/' + emotion.text?.toLowerCase() + '.png'">
+            </div>
+            <div>
+              <img *ngFor="let emotion of object.emotions.emotionsCtrl| slice:6:9; let i = index"
+                   [matTooltip]="emotion.text"
+                   [src]="'assets/images/icons/emotions/sm/' + emotion.text?.toLowerCase() + '.png'">
+            </div>
+            <span class="absolute top-0 right-0 border border-black  rounded-full p-[5px] opacity-80"
+                  *ngIf="object.emotions.emotionsCtrl.length > 9">+{{object.emotions.emotionsCtrl.length - 9}}</span>
+          </div>
+          <span class="mt-auto">Emotions</span>
+        </div>
+        <div class="border-b border-b-[#D9D9D9] p-4 flex flex-col items-center justify-center">
+          <div class="images flex flex-col items-center justify-center h-full">
+            <img class="my-auto" *ngIf="checkIfIcon(object.production.productionTypeCtrl[0].text, PRODUCTION_TYPES);"
+                 [src]="'assets/images/icons/production/sm/' + object.production.productionTypeCtrl[0].id + '.png'">
+            <span>{{object.production.productionTypeCtrl[0].text}}</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Middle, one row with image -->
+      <div class="middle-side">
+        <div class="flex flex-col items-center justify-center h-full">
+          <h1 class="my-auto">{{object.basic.nameCtrl}}</h1>
+          <img class="mb-auto"
+               [class.blur-md]="object.publicStatus.publicStatusCtrl[0].text.toLocaleLowerCase() === 'hide'"
+               [src]="object.basic.imageUploadCtrl">
+        </div>
+      </div>
+
+      <!-- Right Side, two rows -->
+      <div class="right-side">
+        <div class="border-b border-b-[#D9D9D9]  p-4 flex flex-col items-center justify-center">
+          <div class="images flex flex-col items-center justify-center  h-full">
+            <img class="my-auto" *ngIf="checkIfIcon(object.history.acquisitionMethodCtrl[0].text, ACQUISITION_TYPES);"
+                 [src]="'assets/images/icons/acquisition/sm/' + object.history.acquisitionMethodCtrl[0].id + '.png'">
+            <span>{{object.history.acquisitionMethodCtrl[0].text}}</span>
+          </div>
+
+        </div>
+        <div class="border-b border-b-[#D9D9D9]  p-4 flex flex-col items-center justify-center">
+          <div class="images flex flex-col items-center justify-center h-full">
+            <img class="my-auto" *ngIf="checkIfIcon(object.history.handStatusCtrl[0].text, HAND_STATUS_TYPES);"
+                 [src]="'assets/images/icons/hand-status/sm/' + object.history.handStatusCtrl[0].id + '.png'">
+            <span>{{object.history.handStatusCtrl[0].text}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Value -->
+    <div class="object-value border-t border-t-[#D9D9D9] h-20 p-4 flex flex-col items-center justify-center z-10"
+         (mouseenter)="showSlider()" (mouseleave)="hideSlider()">
+      <div class="flex flex-col items-center justify-center space-y-6 h-full w-full relative">
+        <span *ngIf="!isSliderVisible">Value status</span>
+        <ng-container *ngIf="isSliderVisible">
+          <mat-slider class="wizard-slider object-slider mx-0 w-full mt-0" [min]="0" [max]="100" [step]="1"
+                      [disabled]="true">
+            <div class="values-container">
+              <div [style.left]="getLabelPosition(object.value.valueCtrl)" class="value-label">
+                <span>#1</span>
+              </div>
+              <div [style.left]="getLabelPosition(object.valueCheck.valueCheckCtrl)" class="value-label">
+                <span>#2</span>
+              </div>
+            </div>
+            <input matInput matSliderThumb [hidden]="true">
+
+          </mat-slider>
+        </ng-container>
+      </div>
+    </div>
+
+    <!-- Location -->
+    <div class="object-location border-t border-t-[#D9D9D9] flex flex-col items-center justify-center h-full p-12">
+      <div class="flex flex-col items-center justify-center space-y-6 w-full h-full">
+        <google-map width="100%" height="350px" [center]="center" [zoom]="zoom" [options]="options"
+                    class="w-full border border-[#D9D9D9]">
+          <map-marker #marker="mapMarker" [position]="center" [options]="markerOptions"></map-marker>
+        </google-map>
+      </div>
+      <div class="movement-history mt-16 flex flex-col space-y-4 w-1/2 mr-auto max-w-[490px]">
+        <h1>Movement history</h1>
+        <div class="flex items-center justify-between w-full">
+          <span>Location</span>
+          <span>Date</span>
+        </div>
+        <div *ngFor="let location of object.basic?.locationCtrl; let i = index;"
+             class="flex items-center justify-between w-full">
+          <span>{{i + 1}}. {{location?.formatted_address}}</span>
+          <span>{{object.basic.yearCtrl}}</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- OTHERS (GRID TABLE)   -->
+    <div class="grid-table grid border-t border-[#D9D9D9]">
+      <div class="col-span-1 h-12 border-r border-b border-[#D9D9D9]">
+        <app-table-cell class="h-full w-full" title="Past owner of the object"
+                        [data]="object.history.pastOwnersCtrl"></app-table-cell>
+      </div>
+      <div class="col-span-1 h-12 border-r border-b border-[#D9D9D9]">
+        <app-table-cell class="h-full w-full" title="Daily use status"
+                        [data]="object.emotions.usageCtrl[0].text"></app-table-cell>
+      </div>
+      <div class="col-span-1 h-12 border-b border-[#D9D9D9]">
+        <app-table-cell class="h-full w-full" title="Functionality status"
+                        [data]="object.emotions.isIntendedUseCtrl[0].id === 1 ? 'No Change' : 'Using it a different way'"></app-table-cell>
+      </div>
+      <div class="col-span-1 h-12 border-r border-b border-[#D9D9D9]">
+        <app-table-cell class="h-full w-full" title="Replacement probability"
+                        [data]="object.emotions.isReplaceableCtrl[0].text"></app-table-cell>
+      </div>
+      <div class="col-span-1 h-12 border-r border-b border-[#D9D9D9]">
+        <app-table-cell class="h-full w-full" title="Sale probability"
+                        [data]="object.monetary.isSellableCtrl[0].text"></app-table-cell>
+      </div>
+      <div class="col-span-1 h-12 border-b border-[#D9D9D9]">
+        <app-table-cell class="h-full w-full" title="Price"
+                        [data]="object.monetary.priceCtrl"></app-table-cell>
+      </div>
+      <div class="col-span-1 h-12 border-r border-b border-[#D9D9D9]">
+        <app-table-cell class="h-full w-full" title="Material"
+                        [data]="object.basic.materialCtrl | capitalize"></app-table-cell>
+      </div>
+      <div class="col-span-1 h-12 border-r border-b border-[#D9D9D9]">
+        <app-table-cell class="h-full w-full" title="Acquisition year"
+                        [data]="object.basic.yearCtrl"></app-table-cell>
+      </div>
+      <div class="col-span-1 h-12 border-b border-[#D9D9D9]">
+        <app-table-cell class="h-full w-full" title="Company/Brand"
+                        [data]="object.production.creatorCtrl"></app-table-cell>
+      </div>
+      <div class="col-span-1 h-12 border-r border-b border-[#D9D9D9]">
+        <app-table-cell class="h-full w-full" title="Goal/Dream"
+                        [data]="object.history.dreamObjectCtrl[0].text"></app-table-cell>
+      </div>
+      <div class="col-span-1 h-12 border-r border-b border-[#D9D9D9]">
+        <app-table-cell class="h-full w-full" title="Feelings of loss"
+                        [data]="object.emotions.lostItemCtrl"></app-table-cell>
+      </div>
+      <div class="col-span-1 h-12 border-b border-[#D9D9D9]">
+        <app-table-cell class="h-full w-full" title="Family relic"
+                        [data]="object.emotions.isRelicCtrl[0].text"></app-table-cell>
+      </div>
+      <div class="col-span-3  py-8 px-12">
+        <span>Damage: {{object.history.damageCtrl}}</span>
+      </div>
+    </div>
+
+    <!--  Damage gallery  -->
+    <div
+      class="damages-gallery border-t border-[#D9D9D9] space-y-6 flex flex-col justify-center h-full py-12 px-12 items-start">
+      <h1>Gallery</h1>
+      <div class="images flex space-x-16 w-full">
+        <div class="image" *ngFor="let image of object.history.damageImagesCtrl">
+          <img [src]="image">
+        </div>
+      </div>
+    </div>
+
+    <!--  Description   -->
+    <div
+      class="border-t border-[#D9D9D9] space-y-6 flex flex-col justify-center h-full pt-12 px-12 pb-16 items-start">
+      <h1>Description</h1>
+      <span>{{object.description.descriptionCtrl}}</span>
+    </div>
+
+
+  </div>
+
+  <!-- User collection   -->
+  <app-user-collection *ngIf="objectOwner" [user]="objectOwner" (click)="scrollTop()"
+                       [wonderObjects]="objectOwner.objects"></app-user-collection>
+</div>

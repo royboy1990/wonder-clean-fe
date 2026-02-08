@@ -1,0 +1,88 @@
+.object {
+
+  .object-top {
+    height: 600px;
+    display: grid;
+    grid-template-columns: 300px 600px 300px;
+    grid-template-rows: 300px 300px;
+    grid-template-areas:
+    "left middle right"
+    "left middle right";
+  }
+
+  .left-side, .right-side {
+    display: grid;
+    grid-template-rows: 300px 300px;
+
+    .images {
+      div {
+        @apply flex flex-col space-y-8 items-center justify-center;
+        flex: 1;
+      }
+    }
+
+  }
+
+
+  .middle-side {
+    grid-area: middle;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 1px solid #D9D9D9;
+    padding: 20px;
+
+    img {
+      max-width: 450px;
+      max-height: 450px;
+      min-width: 450px;
+      min-height: 450px;
+      object-fit: cover;
+    }
+  }
+
+  .values-container {
+    width: calc(100% - 48px);
+    height: 40px;
+    position: relative;
+    bottom: 4px;
+
+    .value-label {
+      position: absolute;
+
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 50px;
+      width: 50px;
+      background: transparent;
+      border: 1px solid black;
+      border-radius: 50%;
+      bottom: 0;
+    }
+  }
+
+  .grid-table {
+    .col-span-1, col-span-3 {
+      height: 76px;
+      box-sizing: border-box;
+      display: flex;
+      align-items: center;
+    }
+  }
+
+  .damages-gallery {
+    .images {
+      .image {
+        height: 200px;
+        width: 200px;
+
+        img {
+          height: 100%;
+          width: 100%;
+        }
+      }
+    }
+  }
+}
+

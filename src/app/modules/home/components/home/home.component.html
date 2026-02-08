@@ -1,0 +1,21 @@
+<div class="flex flex-col home-wrapper">
+  <div class="main flex flex-col items-center justify-center w-full">
+    <div class="header flex flex-col mt-auto">
+    <span class="">
+      Our <b>OBJECTS</b> can be seen as a <b>UNIVERSAL LANGUAGE</b>
+    </span>
+      <span>
+      Through their universal appeal, material objects can inspire shared
+    </span>
+      <span>
+      experiences and facilitate <b>CONNECTIONS BEYOND WORDS ALONE.</b>
+    </span>
+    </div>
+    <div class="flex flex-col items-center mt-auto">
+      <img class="explore-arrow" src="assets/images/explore_arrow.png">
+    </div>
+  </div>
+</div>
+<app-layout (scrollPastFilter)="showScrollbar = $event" #appLayout></app-layout>
+<app-custom-scrollbar *ngIf="showScrollbar" (scrollChange)="appLayout.setScrollPosition($event)"
+                      [scrollAreaWidth]="appLayout.scrollAreaWidth"></app-custom-scrollbar>
